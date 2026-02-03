@@ -1,0 +1,60 @@
+{
+    "name": "Service Business DNA",
+    "description": "Warm, trustworthy design for service companies (cleaning, contractors, etc)",
+    "theme_injection": {
+        "root_vars": {
+            "--background": "#FAFAF9",
+            "--foreground": "#1C1917",
+            "--primary": "#22C55E",
+            "--primary-foreground": "#FFFFFF",
+            "--secondary": "#78716C",
+            "--secondary-foreground": "#1C1917",
+            "--muted": "#F5F5F4",
+            "--muted-foreground": "#A8A29E",
+            "--accent": "#22C55E",
+            "--accent-foreground": "#FFFFFF",
+            "--border": "#E7E5E4",
+            "--radius": "1.5rem"
+        }
+    },
+    "typography": {
+        "font_family": "DM Sans",
+        "weights": [
+            "400",
+            "500",
+            "700"
+        ],
+        "scale": {
+            "display": "4.5rem",
+            "h1": "3rem",
+            "h2": "2.25rem",
+            "h3": "1.5rem",
+            "body": "1rem",
+            "small": "0.875rem"
+        }
+    },
+    "motion": {
+        "entrance": {
+            "duration": 0.6,
+            "easing": "easeOut"
+        },
+        "hover": {
+            "scale": 1.02,
+            "shadow_grow": true
+        },
+        "scroll": {
+            "library": "lenis",
+            "duration": 1.0
+        }
+    },
+    "spacing": {
+        "section_padding": "6rem",
+        "card_gap": "2rem",
+        "element_gap": "1rem"
+    },
+    "signatures": {
+        "cards": "rounded-3xl with soft shadow",
+        "buttons": "rounded-full or rounded-xl, green primary",
+        "backgrounds": "organic blobs with subtle gradients"
+    }
+}

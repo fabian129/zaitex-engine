@@ -1,0 +1,60 @@
+{
+    "name": "Minimal SaaS DNA",
+    "description": "Clean, professional design for SaaS and B2B products",
+    "theme_injection": {
+        "root_vars": {
+            "--background": "#FFFFFF",
+            "--foreground": "#0F172A",
+            "--primary": "#2563EB",
+            "--primary-foreground": "#FFFFFF",
+            "--secondary": "#64748B",
+            "--secondary-foreground": "#0F172A",
+            "--muted": "#F1F5F9",
+            "--muted-foreground": "#94A3B8",
+            "--accent": "#0EA5E9",
+            "--accent-foreground": "#FFFFFF",
+            "--border": "#E2E8F0",
+            "--radius": "0.5rem"
+        }
+    },
+    "typography": {
+        "font_family": "Inter",
+        "weights": [
+            "400",
+            "500",
+            "600"
+        ],
+        "scale": {
+            "display": "3.5rem",
+            "h1": "2.5rem",
+            "h2": "2rem",
+            "h3": "1.5rem",
+            "body": "1rem",
+            "small": "0.875rem"
+        }
+    },
+    "motion": {
+        "entrance": {
+            "duration": 0.4,
+            "easing": "easeOut"
+        },
+        "hover": {
+            "scale": 1.01,
+            "shadow_grow": true
+        },
+        "scroll": {
+            "library": "native",
+            "duration": null
+        }
+    },
+    "spacing": {
+        "section_padding": "5rem",
+        "card_gap": "1.5rem",
+        "element_gap": "1rem"
+    },
+    "signatures": {
+        "cards": "subtle border, light shadow",
+        "buttons": "solid blue, slight radius",
+        "backgrounds": "clean white, subtle dot pattern"
+    }
+}

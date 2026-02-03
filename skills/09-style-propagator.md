@@ -1,0 +1,218 @@
+---
+name: Style Propagator
+description: Ensures global style consistency across all pages by using shared configuration and component patterns.
+---
+
+# Style Propagator
+
+## Objective
+When a design decision is made (e.g., "Hero icons should have a glow effect"), that decision must propagate to **all** pages automatically, without manually updating each one.
+
+---
+
+## The Problem It Solves
+
+**Scenario:**
+1. You build a Hero with animated icons on the homepage.
+2. You build service pages with similar functionality.
+3. You decide to change the icon color from green to blue.
+4. **Without Style Propagator:** You manually edit 6 files.
+5. **With Style Propagator:** You change 1 config file, all pages update.
+
+---
+
+## Architecture
+
+### Level 1: Design Tokens (CSS Variables)
+
+All colors, fonts, and spacing are defined in `globals.css` and referenced everywhere.
+
+**File:** `app/globals.css`
+```css
+:root {
+  --color-primary: #22C55E;
+  --color-primary-glow: rgba(34, 197, 94, 0.3);
+  --font-heading: 'DM Sans', sans-serif;
+  --radius-card: 1.5rem;
+  --shadow-card: 0 4px 20px rgba(0,0,0,0.08);
+}
+```
+
+**Usage:**
+```tsx
+// ✅ Correct - uses variable
+<div className="bg-primary shadow-card" />
+
+// ❌ Wrong - hardcoded
+<div className="bg-[#22C55E]" />
+```
+
+---
+
+### Level 2: Shared Component Config
+
+For complex patterns (animations, interaction styles), create a config file.
+
+**File:** `lib/style-config.ts`
+```typescript
+export const heroConfig = {
+  animation: {
+    entrance: { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } },
+    duration: 0.6,
+    stagger: 0.1,
+  },
+  iconStyle: {
+    size: 'w-6 h-6',
+    color: 'text-primary',
+    glowOnHover: true,
+  },
+  backgroundLayers: ['GridPattern', 'OrganicBlob'],
+};
+
+export const cardConfig = {
+  radius: 'rounded-3xl',
+  shadow: 'shadow-xl shadow-black/5',
+  hoverEffect: 'hover:shadow-2xl hover:-translate-y-1 transition-all duration-300',
+};
+```
+
+**Usage in Components:**
+```tsx
+import { heroConfig, cardConfig } from '@/lib/style-config';
+
+export function HeroSection() {
+  return (
+    <motion.div {...heroConfig.animation.entrance}>
+      <Icon className={cn(heroConfig.iconStyle.size, heroConfig.iconStyle.color)} />
+    </motion.div>
+  );
+}
+
+export function ServiceCard() {
+  return (
+    <div className={cn(cardConfig.radius, cardConfig.shadow, cardConfig.hoverEffect)}>
+      {/* content */}
+    </div>
+  );
+}
+```
+
+---
+
+### Level 3: Shared Section Components
+
+For sections that appear on multiple pages (Header, Footer, CTA Banner), use shared components.
+
+**File Structure:**
+```
+components/
+├── sections/
+│   ├── Navbar.tsx           # Used everywhere
+│   ├── Footer.tsx           # Used everywhere
+│   ├── CTABanner.tsx        # Used on homepage + service pages
+│   └── HeroBase.tsx         # Base hero, extended per-page
+```
+
+**Pattern for Extendable Sections:**
+```tsx
+// components/sections/HeroBase.tsx
+export function HeroBase({
+  title,
+  subtitle,
+  cta,
+  backgroundLayers = heroConfig.backgroundLayers,
+  children,
+}: HeroBaseProps) {
+  return (
+    <section className="relative min-h-screen">
+      {backgroundLayers.map(Layer => <Layer key={Layer} />)}
+      <div className="relative z-10">
+        <h1>{title}</h1>
+        <p>{subtitle}</p>
+        {cta}
+        {children}
+      </div>
+    </section>
+  );
+}
+
+// app/page.tsx (Homepage)
+<HeroBase title="Welcome" subtitle="Premium cleaning" cta={<Button>Book Now</Button>}>
+  <FeaturedServices />
+</HeroBase>
+
+// app/tjanster/[slug]/page.tsx (Service Page)
+<HeroBase title={service.title} subtitle={service.description} cta={<Button>Get Quote</Button>} />
+```
+
+---
+
+## Propagation Checklist
+
+When making a style change, ask:
+
+| Question | If Yes |
+|:---------|:-------|
+| Is this a color/font/spacing? | Update `globals.css` variables |
+| Is this an animation/interaction pattern? | Update `lib/style-config.ts` |
+| Is this a section that appears multiple times? | Use a shared component |
+| Is this page-specific? | OK to keep local, but document it |
+
+---
+
+## The "Single Source of Truth" Rule
+
+**Every design decision should have exactly ONE place where it's defined.**
+
+- Colors → `globals.css`
+- Animations → `lib/style-config.ts`
+- Section layouts → Shared components
+- Project DNA → `.agent/design/active-dna.md`
+
+---
+
+## Active DNA File
+
+The project's current visual DNA should be summarized in one file that the agent references.
+
+**File:** `.agent/design/active-dna.md`
+```markdown
+# Active DNA - Treda Städ
+
+## Colors
+- Primary: #22C55E (Green)
+- Background: #FAFAF9 (Warm white)
+- Text: #1C1917 (Stone 900)
+
+## Typography
+- Heading: DM Sans, Bold
+- Body: DM Sans, Regular
+
+## Motion
+- Entrance: Fade up, 0.6s duration
+- Hover: Lift + shadow grow
+- Scroll: Lenis smooth, 1.0s duration
+
+## Signatures
+- Cards: Rounded 3xl, soft shadow
+- Buttons: Green primary with hover glow
+- Backgrounds: Organic blobs + subtle grid
+```
+
+---
+
+## Integration Points
+
+### Before building any section
+Check `active-dna.md` and `lib/style-config.ts`.
+
+### After making a style change
+Update the config, not individual components.
+
+### When building underpages
+Import from shared sections, don't recreate.
+
+---
+
+## Key Principle
+**Change once, update everywhere.** No design decision should require touching more than one file.

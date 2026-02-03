@@ -1,0 +1,61 @@
+{
+    "name": "Premium Agency DNA",
+    "description": "Bold, modern design for creative agencies and portfolios",
+    "theme_injection": {
+        "root_vars": {
+            "--background": "#0A0A0A",
+            "--foreground": "#FAFAFA",
+            "--primary": "#6366F1",
+            "--primary-foreground": "#FFFFFF",
+            "--secondary": "#A1A1AA",
+            "--secondary-foreground": "#FAFAFA",
+            "--muted": "#18181B",
+            "--muted-foreground": "#71717A",
+            "--accent": "#EC4899",
+            "--accent-foreground": "#FFFFFF",
+            "--border": "#27272A",
+            "--radius": "0.75rem"
+        }
+    },
+    "typography": {
+        "font_family": "Inter",
+        "weights": [
+            "400",
+            "500",
+            "600",
+            "700"
+        ],
+        "scale": {
+            "display": "5rem",
+            "h1": "3.5rem",
+            "h2": "2.5rem",
+            "h3": "1.75rem",
+            "body": "1rem",
+            "small": "0.875rem"
+        }
+    },
+    "motion": {
+        "entrance": {
+            "duration": 0.8,
+            "easing": "easeInOut"
+        },
+        "hover": {
+            "scale": 1.05,
+            "glow": true
+        },
+        "scroll": {
+            "library": "lenis",
+            "duration": 1.2
+        }
+    },
+    "spacing": {
+        "section_padding": "8rem",
+        "card_gap": "2.5rem",
+        "element_gap": "1.5rem"
+    },
+    "signatures": {
+        "cards": "glassmorphism with blur",
+        "buttons": "gradient borders, glow on hover",
+        "backgrounds": "dot grid, particle field, glowing lines"
+    }
+}
