@@ -83,3 +83,288 @@ export function ParallaxImage({ src, alt }) {
   );
 }
 ```
+
+---
+
+# PART 2 — GSAP ECOSYSTEM (Advanced Scroll)
+
+## When to Use GSAP vs Framer Motion
+
+| Use Case | Tool | Why |
+|:---------|:-----|:----|
+| Hover/click states | Framer Motion | Simpler, React-native |
+| Entrance animations | Framer Motion | `whileInView` is easy |
+| Scroll-linked timelines | **GSAP ScrollTrigger** | More powerful, pinning |
+| Pinning sections | **GSAP ScrollTrigger** | Framer can't do this |
+| Text character animation | **GSAP + SplitType** | Per-letter control |
+| Complex sequences | **GSAP Timeline** | Better orchestration |
+
+## Required Packages
+
+```bash
+npm install gsap @gsap/react
+```
+
+## Setup Pattern
+
+```tsx
+"use client";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+export function ScrollSection() {
+  useGSAP(() => {
+    gsap.to(".animate-me", {
+      scrollTrigger: {
+        trigger: ".animate-me",
+        start: "top 80%",
+        end: "bottom 20%",
+        scrub: true,
+      },
+      y: -50,
+      opacity: 1,
+    });
+  });
+
+  return <div className="animate-me opacity-0">Content</div>;
+}
+```
+
+---
+
+# PART 3 — TEXT ANIMATIONS
+
+## SplitType for Character Animation
+
+```bash
+npm install split-type
+```
+
+### Pattern: Stagger Text Reveal
+
+```tsx
+"use client";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import SplitType from "split-type";
+import { useRef } from "react";
+
+export function AnimatedHeadline({ children }: { children: string }) {
+  const ref = useRef<HTMLHeadingElement>(null);
+
+  useGSAP(() => {
+    if (!ref.current) return;
+    
+    const split = new SplitType(ref.current, { types: "chars" });
+    
+    gsap.from(split.chars, {
+      opacity: 0,
+      y: 50,
+      rotateX: -90,
+      stagger: 0.02,
+      duration: 0.8,
+      ease: "back.out(1.7)",
+    });
+  }, []);
+
+  return (
+    <h1 ref={ref} className="text-6xl font-bold">
+      {children}
+    </h1>
+  );
+}
+```
+
+### Pattern: Text Scramble Effect
+
+```tsx
+// For "hacker" style text reveals
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { TextPlugin } from "gsap/TextPlugin";
+
+gsap.registerPlugin(TextPlugin);
+
+export function ScrambleText({ text }: { text: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useGSAP(() => {
+    gsap.to(ref.current, {
+      duration: 1.5,
+      text: {
+        value: text,
+        scrambleText: { chars: "upperCase", revealDelay: 0.5 },
+      },
+    });
+  });
+
+  return <span ref={ref}></span>;
+}
+```
+
+---
+
+# PART 4 — CLIP-PATH REVEALS
+
+## Pattern: Image Reveal on Scroll
+
+```tsx
+"use client";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+export function RevealImage({ src, alt }: { src: string; alt: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    gsap.fromTo(
+      containerRef.current,
+      { clipPath: "inset(100% 0 0 0)" },
+      {
+        clipPath: "inset(0% 0 0 0)",
+        duration: 1.2,
+        ease: "power3.inOut",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 80%",
+        },
+      }
+    );
+  });
+
+  return (
+    <div ref={containerRef} className="overflow-hidden">
+      <img src={src} alt={alt} className="w-full h-full object-cover" />
+    </div>
+  );
+}
+```
+
+## Clip-Path Vocabulary
+
+| Effect | From | To |
+|:-------|:-----|:---|
+| Reveal from bottom | `inset(100% 0 0 0)` | `inset(0% 0 0 0)` |
+| Reveal from top | `inset(0 0 100% 0)` | `inset(0 0 0% 0)` |
+| Reveal from left | `inset(0 100% 0 0)` | `inset(0 0% 0 0)` |
+| Circle expand | `circle(0% at 50% 50%)` | `circle(100% at 50% 50%)` |
+| Diagonal wipe | `polygon(0 0, 0 0, 0 100%)` | `polygon(0 0, 100% 0, 100% 100%, 0 100%)` |
+
+---
+
+# PART 5 — MAGNETIC CURSOR (Full Implementation)
+
+```tsx
+"use client";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+import { useRef, MouseEvent } from "react";
+
+interface MagneticProps {
+  children: React.ReactNode;
+  strength?: number;
+}
+
+export function Magnetic({ children, strength = 0.3 }: MagneticProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const springX = useSpring(x, { stiffness: 150, damping: 15 });
+  const springY = useSpring(y, { stiffness: 150, damping: 15 });
+
+  const handleMouse = (e: MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    x.set((e.clientX - centerX) * strength);
+    y.set((e.clientY - centerY) * strength);
+  };
+
+  const reset = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{ x: springX, y: springY }}
+      onMouseMove={handleMouse}
+      onMouseLeave={reset}
+    >
+      {children}
+    </motion.div>
+  );
+}
+```
+
+**Usage:**
+```tsx
+<Magnetic strength={0.4}>
+  <button className="px-6 py-3 bg-primary">Hover Me</button>
+</Magnetic>
+```
+
+---
+
+# PART 6 — PINNED SCROLL SECTIONS
+
+```tsx
+"use client";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+export function PinnedSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    const panels = gsap.utils.toArray<HTMLElement>(".panel");
+    
+    gsap.to(panels, {
+      xPercent: -100 * (panels.length - 1),
+      ease: "none",
+      scrollTrigger: {
+        trigger: containerRef.current,
+        pin: true,
+        scrub: 1,
+        end: () => "+=" + (containerRef.current?.offsetWidth || 0),
+      },
+    });
+  });
+
+  return (
+    <div ref={containerRef} className="flex overflow-hidden">
+      <div className="panel w-screen h-screen flex-shrink-0">Panel 1</div>
+      <div className="panel w-screen h-screen flex-shrink-0">Panel 2</div>
+      <div className="panel w-screen h-screen flex-shrink-0">Panel 3</div>
+    </div>
+  );
+}
+```
+
+---
+
+# REQUIRED PACKAGES SUMMARY
+
+```json
+{
+  "dependencies": {
+    "framer-motion": "^11.0.0",
+    "gsap": "^3.12.0",
+    "@gsap/react": "^2.1.0",
+    "split-type": "^0.3.0",
+    "@studio-freight/lenis": "^1.0.0"
+  }
+}
+```
