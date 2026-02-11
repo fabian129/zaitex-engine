@@ -177,26 +177,113 @@ The project's current visual DNA should be summarized in one file that the agent
 
 **File:** `.agent/design/active-dna.md`
 ```markdown
-# Active DNA - Treda Städ
+# Active DNA — [Project Name]
 
-## Colors
-- Primary: #22C55E (Green)
-- Background: #FAFAF9 (Warm white)
-- Text: #1C1917 (Stone 900)
+## 🎨 Color Palette
 
-## Typography
-- Heading: DM Sans, Bold
-- Body: DM Sans, Regular
+### Primary Colors
+Brand Primary: [hex]
+Brand Secondary: [hex]
+Accent: [hex]
 
-## Motion
-- Entrance: Fade up, 0.6s duration
-- Hover: Lift + shadow grow
-- Scroll: Lenis smooth, 1.0s duration
+### Neutral Colors
+Background: [hex]
+Foreground: [hex]
+Muted: [hex]
+Border: [hex]
 
-## Signatures
-- Cards: Rounded 3xl, soft shadow
-- Buttons: Green primary with hover glow
-- Backgrounds: Organic blobs + subtle grid
+### Semantic Colors
+Success: [hex]
+Warning: [hex]
+Error: [hex]
+Info: [hex]
+
+## 📝 Typography
+
+### Font Families
+Heading: [Font Name]
+Body: [Font Name]
+Mono: [Font Name]
+
+### Type Scale
+Display: 72px / 4.5rem
+H1: 48px / 3rem
+H2: 36px / 2.25rem
+H3: 30px / 1.875rem
+H4: 24px / 1.5rem
+Body Large: 18px / 1.125rem
+Body: 16px / 1rem
+Body Small: 14px / 0.875rem
+Caption: 12px / 0.75rem
+
+### Font Weights
+Light: 300
+Regular: 400
+Medium: 500
+Semibold: 600
+Bold: 700
+
+## 📐 Spacing System
+xs: 4px
+sm: 8px
+md: 16px
+lg: 24px
+xl: 32px
+2xl: 48px
+3xl: 64px
+4xl: 96px
+
+## ✨ Visual Effects
+
+### Shadows
+shadow-sm: [value]
+shadow-md: [value]
+shadow-lg: [value]
+glow: [value]
+
+### Glassmorphism
+backdrop-filter: blur([value])
+background: rgba([values])
+border: [value]
+
+### Gradients
+gradient-1: [value]
+gradient-2: [value]
+
+## 🎬 Motion DNA
+
+### Intensity Level: [Subtle / Expressive / Luxury]
+Scroll: [Native / Lenis Smooth]
+Hover: [Lift + Shadow / Magnetic / Scale]
+Entrance: [Fade up / Clip reveal / Stagger]
+Easing: [cubic-bezier value]
+
+### Duration
+Fast: 150ms
+Normal: 300ms
+Slow: 500ms
+
+## 📱 Breakpoints
+mobile: 640px
+tablet: 768px
+desktop: 1024px
+wide: 1280px
+
+## 🔑 Signatures (What Makes This Project Unique)
+Cards: [ex. Sharp corners, 1px border, no shadow]
+Buttons: [ex. Pill shape, shimmer on hover]
+Backgrounds: [ex. Noise overlay + dot grid, no particles]
+Layout: [ex. Asymmetric 60/40, generous whitespace]
+Icons: [ex. Lucide, 24px, stroke-width 1.5]
+Hover: [ex. All cards lift + shadow grow, CTAs get glow]
+
+## 🎯 Design Principles
+1. [First principle]
+2. [Second principle]
+3. [Third principle]
+
+## 🖼️ Design References
+[Links or descriptions of approved reference sites/images]
 ```
 
 ---

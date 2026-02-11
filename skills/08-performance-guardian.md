@@ -64,7 +64,8 @@ Ensure every component and page achieves optimal performance, especially on mobi
 
 | Effect | Status | Alternative |
 |:-------|:-------|:------------|
-| `feTurbulence` SVG | ❌ AVOID | Use CSS noise texture or static PNG |
+| `feTurbulence` SVG (animated or per-element) | ❌ AVOID | Use CSS noise texture or static PNG |
+| `feTurbulence` SVG (static overlay, opacity ≤ 0.05) | ✅ OK | NoiseOverlay component — adds analog warmth without performance cost |
 | Complex `blur()` on large elements | ⚠️ LIMIT | Use `blur(10px)` max, not `blur(60px)` |
 | Multiple stacked filters | ❌ AVOID | Combine into single effect |
 | Canvas animations | ⚠️ MONITOR | Limit to 60fps, cleanup on unmount |

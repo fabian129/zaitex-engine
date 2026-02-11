@@ -14,7 +14,7 @@ You work *after* the Section Builder has laid out the DOM.
 - **CSS Variables**: Use `--transition-spring` (e.g., `cubic-bezier(...)`) for consistency.
 
 ## 3. DNA Triggers
-Check `design_dna.atomic_mapping.motion`:
+Check `.agent/design/active-dna.md` → Motion DNA section:
 
 ### A. Intensity: "Subtle" (Corporate/SaaS)
 - **Physics**: Stiff, fast, no bounce.
@@ -62,7 +62,7 @@ The background layers (Atmosphere) should move slightly opposite to mouse moveme
 2. **Respect Reduced Motion.** Always wrap heavy animations in `useReducedMotion()` checks.
 3. **Orchestration.** If a section has >3 items (e.g., Features Grid), ALWAYS use `staggerChildren: 0.1`.
 
-## 5. Output format
+## 6. Output format
 You output the *wrapper code* or *hook logic* to wrap existing components.
 
 ```tsx
@@ -364,7 +364,7 @@ export function PinnedSection() {
     "gsap": "^3.12.0",
     "@gsap/react": "^2.1.0",
     "split-type": "^0.3.0",
-    "@studio-freight/lenis": "^1.0.0"
+    "lenis": "^1.0.0"
   }
 }
 ```

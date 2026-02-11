@@ -10,6 +10,14 @@ Match the right Zaitex component to the design goal through strategic thinking, 
 
 ## Decision Framework
 
+### Question 0: What Do the Signatures Say?
+Before selecting components, check `.agent/design/active-dna.md` → Signatures section. This tells you the project's unique visual rules. For example:
+- If Signatures say "sharp corners" → don't use `rounded-3xl` on cards even if the aesthetic suggests it
+- If Signatures say "no particles" → skip ParticleField regardless of aesthetic goal
+- If Signatures say "all cards lift + shadow grow" → that's the baseline hover, add to every card
+
+Signatures override aesthetic defaults. Always.
+
 ### Question 1: What's the Aesthetic Goal?
 
 #### Technical / Cyberpunk / Futuristic

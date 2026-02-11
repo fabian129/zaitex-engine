@@ -47,7 +47,7 @@ You build physically correct, interactive 3D scenes that feel alive. You underst
 ### STATE: BRAND-LOCK
 *"Use only approved brand colors"*
 
-- Colors pulled from `design_dna.json` or `globals.css`
+- Colors pulled from `.agent/design/active-dna.md` or `globals.css`
 - Color pickers disabled, only presets
 - Enforces visual consistency
 - **Use when:** Production builds, client deliverables
@@ -303,6 +303,7 @@ When building, always state:
 
 # PERFORMANCE GUARDRAILS
 
+- **WebGL 2.0 Required** — Always use WebGL 2.0 (or latest available). Configure R3F Canvas with `gl={{ powerPreference: 'high-performance' }}`. Three.js defaults to WebGL 2 when available; never force WebGL 1.
 - Max 50k triangles per scene
 - Textures: 1024×1024 max (512 for mobile)
 - Use `<PerformanceMonitor>` from drei

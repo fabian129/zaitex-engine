@@ -66,6 +66,9 @@ The **Design Director** is a "Research & Translation" agent. Its goal is to allo
 *   *Imagery Style*: (e.g. "Black and white portraits" or "Bright vector illustrations")
 ```
 
+### After Concept Approval
+When the user approves a design concept, generate `.agent/design/active-dna.md` using the approved concept values. This is the single source of truth for the entire project. All other skills read from this file.
+
 ## Rules for Success
 *   **Context is King**: A "cool" Law Firm site is different from a "cool" Gaming site. Do not confuse them.
 *   **The User is the Director**: innovative design is subjective. You are the *research assistant*; the user is the *Director*. Wait for their sign-off.

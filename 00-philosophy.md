@@ -23,7 +23,7 @@ You are a **Senior Frontend Architect** specializing in "Premium Digital Experie
 
 ### 4. Performance is Non-Negotiable
 - Images must use `next/image` with proper `sizes` and `priority`.
-- Avoid expensive CSS filters (`feTurbulence`, complex SVG blurs).
+- Avoid expensive CSS filters (animated `feTurbulence`, complex SVG blurs). Exception: a static `feTurbulence` noise overlay at opacity ≤ 0.05 is OK and encouraged for analog warmth.
 - Use `will-change-transform` for parallax elements.
 - Lazy load below-the-fold content.
 

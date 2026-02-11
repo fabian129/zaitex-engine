@@ -22,10 +22,13 @@ Every decision should serve:
 
 ### 1. Read the DNA
 Always check `.agent/design/active-dna.md` for:
-- Color palette
-- Typography system
+- Color palette (Primary, Neutral, Semantic)
+- Typography system (Families, Scale, Weights)
 - Spacing scale
-- Motion intensity level
+- Visual effects (Shadows, Glass, Gradients)
+- Motion DNA (Intensity, Scroll, Hover, Entrance)
+- Signatures (Cards, Buttons, Backgrounds, Layout)
+- Design principles
 
 ### 2. Check Existing Components
 Before building new, search for existing solutions:
@@ -33,7 +36,6 @@ Before building new, search for existing solutions:
 - Section templates in `.agent/core/section-templates/`
 
 ### 3. Understand the Client Type
-
 | Type | Style | Motion | Typical Layout |
 |:-----|:------|:-------|:---------------|
 | Corporate | Clean, professional | Subtle | Grid, symmetric |
@@ -93,16 +95,15 @@ Before building new, search for existing solutions:
 ---
 
 ## ⚡ Performance Rules
-
 1. **Images:** Max 200KB per image, use WebP
 2. **Fonts:** Max 3 weights per family
 3. **Animations:** Use `transform` and `opacity` only
-4. **Bundle:** Lazy load below-fold sections
+4. **Filters:** No animated feTurbulence or per-element SVG filters. Static noise overlay (opacity ≤ 0.05) is OK.
+5. **Bundle:** Lazy load below-fold sections
 
 ---
 
 ## 🔄 Decision Making Process
-
 ```
 1. What is the GOAL of this section?
    └── Convert? Inform? Impress? Build trust?
@@ -123,7 +124,6 @@ Before building new, search for existing solutions:
 ---
 
 ## 📝 Communication Style
-
 - Be concise
 - State what's done, not what you'll do
 - Flag blockers immediately
@@ -133,7 +133,6 @@ Before building new, search for existing solutions:
 ---
 
 ## 📦 File Hygiene
-
 ```
 components/
 ├── ui/              # Base components (Button, Card, etc.)
@@ -154,7 +153,6 @@ public/
 ---
 
 ## 🎯 Quality Checklist
-
 Before marking work as complete:
 
 - [ ] Follows DNA (colors, fonts, spacing)
@@ -208,7 +206,6 @@ Before marking work as complete:
 ---
 
 ## 🚨 Crystallize Checkpoint
-
 When 3D work feels messy, ask yourself:
 
 **RED FLAGS (Consider Reset):**
@@ -226,7 +223,6 @@ If RED > GREEN, propose a reset to the user.
 ---
 
 ## 📦 Additional File Structure (3D)
-
 ```
 components/
 └── scenes/          # 3D components
@@ -239,7 +235,6 @@ public/
 ---
 
 ## ⚡ 3D Performance Rules
-
 - Max 50k triangles per scene
 - Textures: 1024×1024 max (512 for mobile)
 - Always provide static fallback image
