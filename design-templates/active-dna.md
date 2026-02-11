@@ -92,6 +92,18 @@ Scale Ratio:  1.2 (Major Third)
 Fluid Space:  clamp(1rem, 5vw, 3rem)
 ```
 
+### Tailwind Config Implementation
+*(Copy this into tailwind.config.ts > theme > extend)*
+```ts
+backgroundImage: {
+  'fluid-video': 'clamp(1rem, 5vw, 3rem)',
+},
+fontSize: {
+  'fluid-base': 'clamp(1rem, 2vw, 1.125rem)',
+  'fluid-h1': 'clamp(2.5rem, 5vw, 4rem)',
+}
+```
+
 ---
 
 ## ✨ Visual Effects
