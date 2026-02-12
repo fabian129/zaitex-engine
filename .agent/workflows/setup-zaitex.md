@@ -1,5 +1,5 @@
 ---
-description: Set up a new Zaitex project automatically with the Monospace DNA and Production-Ready Core Stack
+description: Set up a new Zaitex project automatically with the Base DNA and Production-Ready Core Stack
 ---
 
 # Zaitex Project Setup Workflow
@@ -21,7 +21,7 @@ npm install -D @types/three
 ```
 
 ## 3. Configure Design System
-Set up the Monospace DNA in `app/globals.css` and `tailwind.config.ts`.
+Set up the Active DNA in `app/globals.css` and `tailwind.config.ts`.
 *(Refer to `.agent/design/active-dna.md` for tokens)*
 
 ## 4. Verify Build Environment
