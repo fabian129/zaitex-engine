@@ -3,6 +3,14 @@ name: polish-pass
 description: The final creative layer. Runs AFTER a page is functionally complete to add micro-interactions, decorative effects, and signature details that elevate a site from "clean" to "memorable." Use this skill whenever a page is built and working but feels generic, flat, or lacks personality. Also trigger when the user says "make it special", "add polish", "add details", "it needs more life", "Awwwards quality", or "it's too plain."
 ---
 
+## TL;DR
+**Skill:** 16 — Polish Pass  
+**Phase:** Final Polish  
+**Purpose:** Add premium micro-detailing  
+**Change Budget:** SMALL  
+**Stop:** After refinement without scope creep  
+**Redirects:** If identity change needed → 18.5
+
 # Polish Pass
 
 ## Objective

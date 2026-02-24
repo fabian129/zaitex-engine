@@ -3,6 +3,14 @@ name: component-selector
 description: Smart decision framework for choosing Zaitex components
 ---
 
+## TL;DR
+**Skill:** 04 — Component Selector  
+**Phase:** Production  
+**Purpose:** Reuse existing components instead of rebuilding  
+**Change Budget:** None (selection only)  
+**Stop:** After component mapping is defined  
+**Redirects:** If component missing → 05-component-architect
+
 # Component Selector
 
 ## Objective

@@ -3,6 +3,14 @@ name: copywriter
 description: Transforms client briefs into compelling, conversion-focused copy
 ---
 
+## TL;DR
+**Skill:** 07 — Copywriter  
+**Phase:** Production  
+**Purpose:** Write or refine copy aligned with brief + hierarchy  
+**Change Budget:** MICRO (text changes only)  
+**Stop:** After clarity + tone alignment achieved  
+**Redirects:** If hierarchy issue → Design Critic
+
 # Copywriter
 
 ## Objective

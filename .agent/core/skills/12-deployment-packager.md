@@ -2,6 +2,14 @@ name: deployment-packager
 description: Production Launch Specialist. Prepares sites for deployment with environment setup, analytics integration, and deployment instructions.
 ---
 
+## TL;DR
+**Skill:** 12 — Deployment Packager  
+**Phase:** Ship  
+**Purpose:** Final deployment preparation  
+**Change Budget:** None (build + config only)  
+**Stop:** After deployment checklist passes  
+**Redirects:** If performance issue → 08
+
 # Deployment Packager Logic
 
 ## 1. Objective

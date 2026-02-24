@@ -3,6 +3,14 @@ name: layout-architect
 description: Strategic layout decision framework. Determines the best component structure to serve content goals.
 ---
 
+## TL;DR
+**Skill:** 03 — Layout Architect  
+**Phase:** Production  
+**Purpose:** Choose layout systems (grid, bento, asymmetry)  
+**Change Budget:** SMALL (≤3 files, ≤200 lines)  
+**Stop:** After layout pattern is selected  
+**Redirects:** If identity shift required → 18.5
+
 # Layout Architect
 
 ## Objective

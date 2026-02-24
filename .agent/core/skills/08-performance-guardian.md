@@ -3,6 +3,14 @@ name: Performance Guardian
 description: Enforces performance best practices for images, animations, and rendering to ensure smooth 60fps experiences.
 ---
 
+## TL;DR
+**Skill:** 08 — Performance Guardian  
+**Phase:** QA / Polish  
+**Purpose:** Optimize speed and reduce bundle weight  
+**Change Budget:** SMALL (≤3 files, minimal logic changes)  
+**Stop:** After no obvious performance bottlenecks remain  
+**Redirects:** If structural issue → 05-component-architect
+
 # Performance Guardian
 
 ## Objective

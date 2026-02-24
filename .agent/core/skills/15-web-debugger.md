@@ -3,6 +3,14 @@ name: web-debugger
 description: Token-efficient debugging for web issues. Uses decision trees to diagnose problems quickly without broad exploration.
 ---
 
+## TL;DR
+**Skill:** 15 — Web Debugger  
+**Phase:** Production / QA  
+**Purpose:** Diagnose root cause of bugs  
+**Change Budget:** None (diagnostic only)  
+**Stop:** After cause identified  
+**Redirects:** → 21-micro-editor or 05-component-architect
+
 # Web Debugger — Agent-First Debugging
 
 ## Philosophy

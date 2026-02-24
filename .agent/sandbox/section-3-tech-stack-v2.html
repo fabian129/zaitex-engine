@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Section 3: Tech Stack - Substrate Grid</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f3f1ee;
+      --ink: #070b16;
+      --text: #697386;
+      --meta: #a9b0bb;
+      --card-bg: #f6f5f3;
+      --card-border: rgba(7, 11, 22, 0.08);
+      --card-shadow: 0 4px 14px rgba(7, 11, 22, 0.04);
+      --accent: #c6f91f;
+
+      --section-py-desktop: 96px;
+      --section-py-tablet: 64px;
+      --section-py-mobile: 48px;
+
+      --container-max: 1200px;
+      --left-col-width: 560px;
+      --cols-gap: 72px;
+
+      --wall-gap-desktop: 24px;
+      --wall-gap-tablet: 20px;
+      --wall-gap-mobile: 16px;
+
+      --card-min-h: 132px;
+      --card-pad: 20px;
+      --card-radius: 24px;
+
+      --font-display: "Bebas Neue", sans-serif;
+      --font-body: "Satoshi", sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .section {
+      padding: var(--section-py-desktop) 24px;
+    }
+
+    .container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: var(--left-col-width) minmax(0, 1fr);
+      gap: var(--cols-gap);
+      align-items: start;
+    }
+
+    .left {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(198, 249, 31, 0.55);
+      color: #9bb91d;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 8px rgba(198, 249, 31, 0.45);
+    }
+
+    .headline {
+      font-family: var(--font-display);
+      font-size: 112px;
+      line-height: 0.84;
+      letter-spacing: 0.01em;
+      margin-bottom: 20px;
+    }
+
+    .headline .accent {
+      color: var(--accent);
+    }
+
+    .description {
+      font-size: 20px;
+      line-height: 1.56;
+      color: var(--text);
+      max-width: 440px;
+      margin-bottom: 24px;
+    }
+
+    .features {
+      list-style: none;
+      display: grid;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .feature {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .feature-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid rgba(7, 11, 22, 0.08);
+      background: rgba(7, 11, 22, 0.03);
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+    }
+
+    .feature-icon svg {
+      width: 17px;
+      height: 17px;
+      stroke: var(--ink);
+      stroke-width: 1.8;
+    }
+
+    .feature-title {
+      font-size: 18px;
+      line-height: 1.2;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .feature-meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--meta);
+    }
+
+    .cta {
+      border: 0;
+      border-radius: 999px;
+      padding: 16px 30px;
+      background: #05091a;
+      color: #f4f6fb;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      width: fit-content;
+    }
+
+    .wall {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--wall-gap-desktop);
+      align-content: start;
+    }
+
+    .card {
+      min-height: var(--card-min-h);
+      padding: var(--card-pad);
+      border-radius: var(--card-radius);
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.7) inset,
+        0 12px 22px rgba(7, 11, 22, 0.06),
+        0 2px 5px rgba(7, 11, 22, 0.04);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform 220ms ease, box-shadow 220ms ease;
+      transform-style: preserve-3d;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      background:
+        radial-gradient(120% 80% at 0% 0%, rgba(255, 255, 255, 0.6), transparent 45%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0));
+      mix-blend-mode: screen;
+    }
+    .card::after {
+      content: "";
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(7, 11, 22, 0.12);
+      filter: blur(8px);
+      pointer-events: none;
+    }
+    .card:hover {
+      transform: perspective(700px) rotateX(2deg) rotateY(-2deg) translateY(-2px);
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.8) inset,
+        0 16px 30px rgba(7, 11, 22, 0.09),
+        0 4px 8px rgba(7, 11, 22, 0.05);
+    }
+
+    .hero-a {
+      grid-column: 1 / span 2;
+      grid-row: 1;
+    }
+
+    .hero-b {
+      grid-column: 2 / span 2;
+      grid-row: 3;
+    }
+
+    .logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 10px;
+      background: rgba(7, 11, 22, 0.04);
+      display: grid;
+      place-items: center;
+      font-family: var(--font-display);
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .card-name {
+      font-size: 22px;
+      line-height: 1.08;
+      font-weight: 700;
+    }
+
+    .card-meta {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--meta);
+    }
+
+    @media (max-width: 1024px) {
+      .section {
+        padding-top: var(--section-py-tablet);
+        padding-bottom: var(--section-py-tablet);
+      }
+
+      .container {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .wall {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--wall-gap-tablet);
+      }
+
+      .hero-a,
+      .hero-b {
+        grid-column: auto;
+        grid-row: auto;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .section {
+        padding-top: var(--section-py-mobile);
+        padding-bottom: var(--section-py-mobile);
+      }
+
+      .container {
+        gap: 32px;
+      }
+
+      .headline {
+        font-size: 76px;
+      }
+
+      .description {
+        font-size: 18px;
+      }
+
+      .wall {
+        grid-template-columns: 1fr;
+        gap: var(--wall-gap-mobile);
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="section">
+    <div class="container">
+      <div class="left">
+        <div class="eyebrow">Infrastructure</div>
+        <h2 class="headline">THE<br>SUBSTRATE<span class="accent">.</span></h2>
+        <p class="description">
+          We don't just build websites; we engineer high-velocity digital ecosystems.
+          A curated stack of best-in-class technologies ensures scalability from day one.
+        </p>
+
+        <ul class="features">
+          <li class="feature">
+            <span class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+              </svg>
+            </span>
+            <span>
+              <span class="feature-title">Modular Architecture</span><br>
+              <span class="feature-meta">React / Next.js / Astro</span>
+            </span>
+          </li>
+
+          <li class="feature">
+            <span class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.375c0-2.278 3.694-4.125 8.25-4.125s8.25 1.847 8.25 4.125m-16.5 0v11.25c0 2.278 3.694 4.125 8.25 4.125s8.25-1.847 8.25-4.125V6.375m-16.5 3.75c0 2.278 3.694 4.125 8.25 4.125s8.25-1.847 8.25-4.125"/>
+              </svg>
+            </span>
+            <span>
+              <span class="feature-title">Data Liquidity</span><br>
+              <span class="feature-meta">Supabase / Postgres / Redis</span>
+            </span>
+          </li>
+
+          <li class="feature">
+            <span class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3a9 9 0 1 0 9 9M3 12h18M12 3a12.9 12.9 0 0 1 0 18M12 3a12.9 12.9 0 0 0 0 18"/>
+              </svg>
+            </span>
+            <span>
+              <span class="feature-title">Global Edge</span><br>
+              <span class="feature-meta">Vercel / Cloudflare</span>
+            </span>
+          </li>
+        </ul>
+
+        <button class="cta">Explore Full Stack</button>
+      </div>
+
+      <div class="wall" aria-label="Technology cards wall">
+        <article class="card hero-a">
+          <div class="logo">S</div>
+          <h3 class="card-name">Stripe</h3>
+          <p class="card-meta">Payments</p>
+        </article>
+
+        <article class="card">
+          <div class="logo">L</div>
+          <h3 class="card-name">Linear</h3>
+          <p class="card-meta">Management</p>
+        </article>
+
+        <article class="card">
+          <div class="logo">F</div>
+          <h3 class="card-name">Figma</h3>
+          <p class="card-meta">Design</p>
+        </article>
+
+        <article class="card">
+          <div class="logo">N</div>
+          <h3 class="card-name">Notion</h3>
+          <p class="card-meta">Wiki</p>
+        </article>
+
+        <article class="card hero-b">
+          <div class="logo">T</div>
+          <h3 class="card-name">Tailwind</h3>
+          <p class="card-meta">Styling</p>
+        </article>
+
+        <article class="card">
+          <div class="logo">O</div>
+          <h3 class="card-name">OpenAI</h3>
+          <p class="card-meta">Intelligence</p>
+        </article>
+
+        <article class="card">
+          <div class="logo">G</div>
+          <h3 class="card-name">GitHub</h3>
+          <p class="card-meta">VCS</p>
+        </article>
+
+        <article class="card">
+          <div class="logo">V</div>
+          <h3 class="card-name">Vercel</h3>
+          <p class="card-meta">Deployment</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

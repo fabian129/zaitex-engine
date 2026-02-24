@@ -3,6 +3,15 @@ name: brief-architect
 description: Project intake and strategic planning skill. Takes raw client data (meetings, documents, playbooks, existing sites, templates) and produces a complete project blueprint with downstream briefs for every skill in the pipeline. Also generates client-facing brand documentation. Use this skill at the START of every new project, when onboarding a new client, when receiving client documents/playbooks, when the user says "new project", "new client", "plan this", "brief this", or provides meeting notes and client materials. This skill runs BEFORE everything else in the pipeline.
 ---
 
+## TL;DR
+**Skill:** 00 — Brief Architect  
+**Phase:** Phase 0 (Intake & Routing)  
+**Purpose:** Define project scope, constraints, and MODE (AURA / LITE / ENGINE)  
+**Change Budget:** None (read-only planning)  
+**Output:** Structured brief + explicit MODE decision  
+**Stop:** After MODE is declared and constraints are clear  
+**Redirects:** → INDEX (Phase 1)
+
 # Brief Architect
 
 ## Objective

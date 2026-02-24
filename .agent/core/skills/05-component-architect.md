@@ -2,6 +2,14 @@ name: component-architect
 description: Senior React Architect. Identifies complex UI patterns and extracts them into reusable, logic-separated components.
 ---
 
+## TL;DR
+**Skill:** 05 — Component Architect  
+**Phase:** Production  
+**Purpose:** Build new modular components  
+**Change Budget:** MEDIUM (≤8 files, ≤500 lines)  
+**Stop:** After component is stable and clean  
+**Redirects:** If identity changes required → 18.5
+
 # Component Architect Logic
 
 ## 1. Objective

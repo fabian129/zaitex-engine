@@ -3,12 +3,15 @@ name: skill-routing
 description: Mandatory routing sheet. Read this when starting any task and when switching between tasks. It tells you which skill to use, when to switch skills, and how skills feed into each other. If in doubt, check this sheet. Always.
 ---
 
+⚠️ DO NOT USE FOR RUNTIME ROUTING.
+Read INDEX.md instead.
+
 # Skill Routing Sheet
 
 ## How to Use This Document
 You are an agent with 16 skills. This sheet tells you **when to activate each one** and **when to hand off to another**. It is not a summary of what skills do — it is a routing table.
 
-Read this at the start of every task. Re-read it every 5-10 prompts to check you haven't drifted.
+Index controls execution, this sheet is just a reference.
 
 ---
 
@@ -27,6 +30,9 @@ Read this at the start of every task. Re-read it every 5-10 prompts to check you
 - `15 Web Debugger` — when something breaks
 - `16 Polish Pass` — after the page works, before deployment
 - `17 Aura Migration` — when converting Aura.build exports
+- `18 Brand Moodboard` — visual brand concepting before or alongside Brief Architect
+- `19 Section Prototyper` — the creative gate between moodboard and full pipeline
+- `20 Particle Field` — GPU particle effects on text, borders, or logos (any project)
 
 ---
 
@@ -63,6 +69,17 @@ Read this at the start of every task. Re-read it every 5-10 prompts to check you
 | 6 | **Accessibility Auditor** | Check contrast, alt text, focus states |
 | 7 | **Deployment Packager** | Ship it |
 
+### Starting from Brand Moodboard
+
+| Step | Skill | What You Produce |
+|:-----|:------|:-----------------|
+| 1 | **Brand Moodboard** | Interactive HTML moodboard (palette, type, motion, voice) |
+| 2 | Client approves → **Brand Moodboard** Phase 5 | Extract decisions into `active-dna.md` |
+| 3 | **Brief Architect** (if not done yet) | Project brief with business context |
+| 4 | **Design Director** | Refines DNA to component-level decisions |
+| ★ 5 | **Section Prototyper** | Build hero + bento, iterate until approved. DNA v2 written. Quality gate. |
+| 6 | Continue normal pipeline from **Page Planner** | All other pages build to match approved sections |
+
 ### Adding a New Page to Existing Project
 
 | Step | Skill |
@@ -89,12 +106,21 @@ Read this at the start of every task. Re-read it every 5-10 prompts to check you
 
 These are the specific conditions where one skill MUST hand off to another. This is the most important section.
 
+### Brand Moodboard
+- **Triggers when user asks for visual brand direction** — moodboard, brand identity, color palette, "how should our brand look"
+- **Can run before OR after Brief Architect** — if the user wants to explore visually first, that's fine
+- **After user approves →** Phase 5 extracts palette, typography, motion, voice into `active-dna.md`
+- **Then hands off to `01-design-director`** to refine DNA to component-level decisions
+- **If Brief Architect hasn't run yet →** run it after moodboard approval to fill in business context
+- **Does NOT build Next.js components** — produces a standalone HTML file only
+
 ### Brief Architect
 - **Triggers at the start of every new project** — before Design Director, before everything
 - **Reads all client materials** before producing anything — don't start the brief after reading one document
 - **Produces `project-brief.md`** — present to user for approval before generating skill briefs
 - **After approval →** generates skill briefs in `.agent/project/` and hands off to pipeline
 - **If starting from Aura template →** still run Brief Architect first, then Aura Migration. Brief Architect identifies gaps between template and client needs
+- **If a moodboard was already approved →** skip Design Director's initial exploration, use moodboard DNA as starting point
 - **If very sparse input →** make assumptions, mark them `[ASSUMPTION]`, present for verification
 - **Brand Bible** is generated AFTER Design Director has run (needs visual data from `active-dna.md`)
 
@@ -204,6 +230,21 @@ These are the specific conditions where one skill MUST hand off to another. This
 - **Max 50k triangles per scene**
 - **Always provide static fallback image**
 - **If scene feels messy →** check Crystallize checkpoint (RED/GREEN flags)
+
+### Section Prototyper
+- **Activates after Brand Moodboard + Design Director** — before full page builds
+- **Builds hero + bento at minimum.** User iterates until approved. Does NOT proceed until sections are locked.
+- **Rewrites `active-dna.md` to v2** with production-proven values after approval
+- **Approved sections become the quality benchmark** for every page built after
+- **Never skip.** Moodboard is theory. Prototyper proves it works.
+
+### Particle Field
+- **Activates whenever interactive text, border, or logo particle effects are needed**
+- **Use Regl (NOT Three.js)** — Regl is 10× lighter for 2D particle effects
+- **Always provide SVG fallback** — no blank screen on WebGL compile
+- **TWEAK mode:** Expose Leva sliders so user can self-tune without agent tokens
+- **BAKED mode:** Strip Leva for production, hardcode approved config
+- **Approved configs → catalog in `20-particle-field.md`** component catalog table
 
 ---
 
@@ -341,6 +382,9 @@ When the user is experimenting — building components for fun, testing ideas, e
 | Preparing for Vercel deploy | 12 Deployment Packager |
 | Something is broken | 15 Web Debugger |
 | Building 3D scenes | 13 Immersive Architect |
+| Creating a brand moodboard or visual direction | 18 Brand Moodboard |
+| Iterating hero / bento before full build | 19 Section Prototyper |
+| Interactive particles on text, borders, logos | 20 Particle Field |
 | User shows a reference mid-build | Mid-Build Reference Protocol (above) |
 | User wants to experiment/iterate fast | Sandbox Mode (above) |
 

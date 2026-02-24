@@ -3,6 +3,14 @@ name: aura-migration
 description: Converts raw HTML output from Aura.build (single-file HTML with inline CSS/JS) into clean Next.js components using the Zaitex Stack (Tailwind, GSAP, Lenis, Framer Motion). Use when a user provides an Aura.build export and wants it rebuilt as production-ready code in the existing project structure.
 ---
 
+## TL;DR
+**Skill:** 17 — Aura Migration  
+**Phase:** Phase 1 (AURA mode)  
+**Purpose:** Convert Aura template into project structure  
+**Change Budget:** LARGE (migration only)  
+**Stop:** After template is integrated cleanly  
+**Redirects:** If identity mismatch → 18.5 (mini)
+
 # Aura Migration
 
 ## Objective

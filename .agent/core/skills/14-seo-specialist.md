@@ -3,6 +3,14 @@ name: seo-specialist
 description: Search Engine Optimization specialist. Handles both building with SEO best practices and auditing existing pages.
 ---
 
+## TL;DR
+**Skill:** 14 — SEO Specialist  
+**Phase:** Production + Pre-Deploy  
+**Purpose:** Ensure SEO structure + metadata  
+**Change Budget:** MICRO  
+**Stop:** After H1, meta, schema validated  
+**Redirects:** None
+
 # SEO Specialist
 
 ## Role

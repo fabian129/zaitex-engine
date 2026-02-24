@@ -3,6 +3,14 @@ name: browser-validator
 description: Self-healing design validation using browser inspection
 ---
 
+## TL;DR
+**Skill:** 11 — Browser Validator  
+**Phase:** QA  
+**Purpose:** Ensure cross-browser stability  
+**Change Budget:** MICRO  
+**Stop:** After major incompatibilities resolved  
+**Redirects:** If bug → 15-web-debugger
+
 # Browser Validator
 
 ## Objective

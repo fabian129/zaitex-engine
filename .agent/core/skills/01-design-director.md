@@ -3,6 +3,15 @@ name: Design Director
 description: A creative partner that helps research design trends, find visual references (Awwwards, Dribbble), and translate them into actionable design specifications (DNA) for the developer. Now supports multi-industry adaptation and mandatory user review loops.
 ---
 
+## TL;DR
+**Skill:** 01 — Design Director  
+**Phase:** Phase 1 (Concept framing)  
+**Purpose:** Translate brief into high-level creative direction  
+**Change Budget:** None (strategic only)  
+**Stop:** After direction statement is clear  
+**Redirects:** → 18-brand-moodboard
+
+
 # Design Director Skill
 
 The **Design Director** is a "Research & Translation" agent. Its goal is to allow the user to define a "vibe" or aesthetic goal, find concrete examples of that style on the web, and then rigorously analyze those examples to create a technical "Design Concept" for the developer to build.

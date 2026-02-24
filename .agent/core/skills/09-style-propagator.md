@@ -3,6 +3,14 @@ name: Style Propagator
 description: Ensures global style consistency across all pages by using shared configuration and component patterns.
 ---
 
+## TL;DR
+**Skill:** 09 — Style Propagator  
+**Phase:** Production / QA  
+**Purpose:** Ensure consistency with Active DNA  
+**Change Budget:** SMALL (≤3 files)  
+**Stop:** After consistency is restored  
+**Redirects:** If identity drift discovered → 18.5
+
 # Style Propagator
 
 ## Objective

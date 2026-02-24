@@ -3,6 +3,14 @@ name: Accessibility Auditor
 description: Expert in ensuring WCAG compliance, contrast ratios, and visual readability.
 ---
 
+## TL;DR
+**Skill:** 09 — Style Propagator  
+**Phase:** Production / QA  
+**Purpose:** Ensure consistency with Active DNA  
+**Change Budget:** SMALL (≤3 files)  
+**Stop:** After consistency is restored  
+**Redirects:** If identity drift discovered → 18.5
+
 # Accessibility Auditor Skill
 
 ## Objective

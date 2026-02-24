@@ -1,249 +1,126 @@
-# Zaitex Engine — Agent Instructions
+# Zaitex Engine — Agent Instructions (vNext)
 
-This document defines how AI agents should operate when building websites using the Zaitex Engine.
+You are operating inside the Zaitex Design Engine.
+Your job is to execute with strict phase-gating, token discipline, and minimal drift.
 
----
+## 0) Non-negotiables
+- **Never scan the whole repository** or read “everything for context”.
+- **Follow the router**: START_HERE → INDEX → one skill at a time.
+- **TL;DR-first always**: read only the TL;DR of a skill unless the TL;DR explicitly says you must read deeper.
+- **Respect Change Budgets**: do not exceed the budget defined by the selected skill.
+- **One module patch per iteration** (when applicable). No broad refactors.
+- If unsure about identity/design direction: **redirect to Skill 18.5 Section Sandbox** (exploration stays out of production).
 
-# PART 1 — BASE OPERATIONS (All Projects)
+## 1) Boot sequence (the only allowed entry)
+1. Read `.agent/START_HERE.md`
+2. Read `.agent/INDEX.md`
+3. Determine current PHASE + allowed skills from INDEX
+4. Select exactly **ONE** skill to run next
+5. Read only that skill’s **TL;DR**
+6. Execute the skill
+7. Stop and report results + next recommended skill (do not continue automatically)
 
-## 🎯 Core Philosophy
+## 2) Routing rules
+- `.agent/INDEX.md` is the **single source of truth** for:
+  - current phase definitions
+  - which skills are allowed in each phase
+  - the “default” next skill selection
+- Do not use any other routing sheets, legacy routers, or “memory/rules” files as runtime routers.
 
-**You are not just writing code. You are crafting premium digital experiences.**
+## 3) Execution discipline
+When executing a skill:
+- Apply the skill’s **Change Budget** strictly.
+- Output must be **actionable artifacts**:
+  - “patch-style” edits (exact file + exact change) OR
+  - a single new file/module (if budget allows) OR
+  - a short checklist of commands + expected outputs
+- Avoid speculative rewrites. Prefer minimal, reversible changes.
+- If a task expands scope: stop and route back to INDEX for the next skill.
 
-Every decision should serve:
-1. **Visual Excellence** — Sites should look Awwwards-worthy
-2. **User Experience** — Premium feel, smooth interactions
-3. **Maintainability** — Clean code, documented decisions
-4. **Performance** — Fast loads, smooth animations
+## 4) Exploration vs Production
+- Exploration/visual probing happens in:
+  - **Skill 18.5 — Section Sandbox** (HTML structure exploration; cheap iteration)
+  - **Skill 22 — Design Critic** (evaluate against intent; propose deltas within budget)
+- Production implementation happens in:
+  - **Skill 19 — Section Prototyper** (real Next.js sections, module-first)
+  - **Skill 21 — Micro Editor** (single-file surgical edits)
 
----
+Rule:
+- If requirements are fuzzy → go to **18.5** first.
+- If requirements are clear → go to **19/21**.
 
-## 📋 Before Starting Any Work
+## 5) Token / cost control
+Default behavior:
+- Read the minimum required files.
+- Prefer TL;DR summaries, not full skill bodies.
+- Never “double-check by reading everything”.
+- If additional context is required, request **exactly one** additional file, justify why, then stop.
 
-### 0. Read the Memory
-Before anything else:
-1.  Read `.agent/core/skill-routing.md` to know WHICH skill to use.
-2.  Read `.agent/core/lessons-learned.md` to know what NOT to do.
+## 6) Project Setup Workflow alignment (Next.js bootstrap)
+When the project is new or environment is missing baseline setup, follow this workflow BEFORE building sections:
 
-### 1. Read the DNA
-Always check `.agent/design/active-dna.md` for:
-- Color palette (Primary, Neutral, Semantic)
-- Typography system (Families, Scale, Weights)
-- Spacing scale
-- Visual effects (Shadows, Glass, Gradients)
-- Motion DNA (Intensity, Scroll, Hover, Entrance)
-- Signatures (Cards, Buttons, Backgrounds, Layout)
-- Design principles
+### Step A — Initialize Next.js (TypeScript, Tailwind, ESLint, App Router)
+```bash
+npx create-next-app@latest . --typescript --tailwind --eslint
+```         
+Step B — Install Zaitex Core Stack (mandatory)
+npm install framer-motion lenis lucide-react class-variance-authority clsx tailwind-merge three @react-three/fiber @react-three/drei gsap @gsap/react
+npm install -D @types/three
+Step C — Configure Design System (Active DNA)
 
-### 2. Check Existing Components
-Before building new, search for existing solutions:
-- `components/` folder
-- Section templates in `.agent/core/section-templates/`
+Propagate tokens into:
 
-### 3. Understand the Client Type
-| Type | Style | Motion | Typical Layout |
-|:-----|:------|:-------|:---------------|
-| Corporate | Clean, professional | Subtle | Grid, symmetric |
-| Creative/Agency | Bold, experimental | Expressive | Bento, broken grid |
-| E-commerce | Conversion-focused | Minimal | Product grids |
-| Restaurant/Hospitality | Warm, inviting | Smooth | Full-bleed images |
-| Tech/SaaS | Modern, technical | Magnetic, spring | Asymmetric |
+app/globals.css
 
----
+tailwind.config.ts
 
-## 🔧 Skill Reference
+Use .agent/design/active-dna.md as the single source of truth for tokens.
 
-| Skill | When to Use |
-|:------|:------------|
-| `00-brief-architect` | Project intake & briefs |
-| `01-design-director` | Setting overall direction |
-| `02-page-planner` | Planning page structure |
-| `03-layout-architect` | Choosing layouts (bento, grids, etc.) |
-| `04-component-selector` | Picking components |
-| `05-component-architect` | Building new components |
-| `06-motion-choreographer` | Adding animations |
-| `07-copywriter` | Writing content |
-| `08-performance-guardian` | Optimizing speed |
-| `09-style-propagator` | Ensuring DNA consistency |
-| `10-accessibility-auditor` | Checking a11y |
-| `11-browser-validator` | Testing browsers |
-| `12-deployment-packager` | Shipping |
-| `13-immersive-architect` | 3D scenes & effects |
-| `14-seo-specialist` | SEO (apply during build + audit before deploy) |
-| `15-web-debugger` | Debugging issues (decision trees, token-efficient) |
-| `16-polish-pass` | Micro-details & signature effects |
-| `17-aura-migration` | Aura.build → Next.js conversion |
+Apply changes using the allowed skill for the current phase (often: Style Propagator / Layout Architect / Micro Editor).
 
----
+Step D — Verify strict build
+npm run build
 
-## 🎨 Visual Quality Standards
+Fix strict-mode issues without broad refactors (null canvas refs, types, unused vars, etc.).
 
-### Hero Sections
-- Large, confident typography (min 4rem desktop)
-- Clear visual hierarchy
-- Single primary CTA
-- Consider: background patterns, gradients, subtle motion
+Validate via the phase-allowed skills only.
 
-### Cards & Grids
-- Use Bento for variety (mixed card sizes)
-- Consistent border radius from DNA
-- Hover states are mandatory
-- Consider: stagger animations, magnetic effects
+7) Output contract (every response)
 
-### Images
-- Never stretch or distort
-- Always specify aspect ratios
-- Consider: reveal animations, parallax, grain overlays
+Every response must include:
 
-### Motion
-- Entrance: fade + subtle translate
-- Hover: scale 1.02-1.05, lift shadow
-- Scroll: parallax only when intentional
-- Always respect `prefers-reduced-motion`
+Phase (from INDEX)
 
----
+Selected Skill (one only)
 
-## ⚡ Performance Rules
-1. **Images:** Max 200KB per image, use WebP
-2. **Fonts:** Max 3 weights per family
-3. **Animations:** Use `transform` and `opacity` only
-4. **Filters:** No animated feTurbulence or per-element SVG filters. Static noise overlay (opacity ≤ 0.05) is OK.
-5. **Bundle:** Lazy load below-fold sections
+What you read (file list; keep short)
 
----
+Changes made / proposed (within budget)
 
-## 🔄 Decision Making Process
-```
-1. What is the GOAL of this section?
-   └── Convert? Inform? Impress? Build trust?
+Stop (explicit stop)
 
-2. What PATTERN serves that goal?
-   └── Reference layout-architect for options
+Next recommended skill (from INDEX), and why
 
-3. What MOTION level fits the DNA?
-   └── Check motion-choreographer for intensity
+8) Safety / guardrails for drift
 
-4. What COMPONENTS already exist?
-   └── Don't rebuild what's there
+Do not change branding, typography system, or motion language unless:
 
-5. Does it FEEL premium?
-   └── If not, iterate
-```
+the selected skill explicitly instructs it, AND
 
----
+the Change Budget allows it.
 
-## 📝 Communication Style
-- Be concise
-- State what's done, not what you'll do
-- Flag blockers immediately
-- Ask specific questions when unsure
-- Don't guess on brand decisions
+Do not introduce new dependencies unless:
 
----
+required by the Setup Workflow OR
 
-## 📦 File Hygiene
-```
-components/
-├── ui/              # Base components (Button, Card, etc.)
-├── sections/        # Page sections (Hero, Features, etc.)
-└── layout/          # Navbar, Footer, etc.
+explicitly allowed by the selected skill and phase.
 
-public/
-├── assets/
-│   ├── images/
-│   └── videos/
-└── favicon/
+9) If conflicts are detected
 
-.agent/
-├── core/            # Universal engine (don't modify per-project)
-└── design/          # Project-specific DNA
-```
+If START_HERE, INDEX, or a skill conflicts:
 
----
+Treat START_HERE + INDEX as higher priority than any single skill body.
 
-## 🎯 Quality Checklist
-Before marking work as complete:
+Stop and report the conflict with the exact lines/sections involved.
 
-- [ ] Follows DNA (colors, fonts, spacing)
-- [ ] Responsive (mobile, tablet, desktop)
-- [ ] Accessible (keyboard, screen reader)
-- [ ] Performant (no layout shifts, fast load)
-- [ ] Motion respects reduced-motion
-- [ ] No console errors
-- [ ] Clean code (ESLint passing)
-- [ ] SEO: Meta tags, single H1, alt texts, schema markup
-
----
-
-# PART 2 — ADVANCED OPERATIONS (3D / Interactive Projects Only)
-
-> **Activate this section when:** User requests 3D scenes, immersive effects, or complex interactive experiences.
-
-## Additional Skill
-
-| Skill | When to Use |
-|:------|:------------|
-| `13-immersive-architect` | 3D scenes, organic effects, mouse interactions |
-
----
-
-## 🚦 Operating Modes
-
-### AUTO Mode (Default for 3D)
-- Agent picks optimal values based on scene calibration
-- Minimal Leva controls exposed
-- Goal: 80% done, user tweaks 20%
-
-### TWEAK Mode
-- Full Leva controls exposed
-- Calibrated ranges based on scene measurements
-- **Trigger:** User says "give me full controls" or "TWEAK mode"
-
----
-
-## 🎨 Color States
-
-### SANDBOX
-- Any colors allowed
-- Full color pickers in Leva
-- **Use for:** Testing materials, exploring looks
-
-### BRAND-LOCK
-- Colors from DNA only
-- **Use for:** Production builds, client deliverables
-
----
-
-## 🚨 Crystallize Checkpoint
-When 3D work feels messy, ask yourself:
-
-**RED FLAGS (Consider Reset):**
-- Am I constantly working around earlier mistakes?
-- Are there 3+ "temporary fixes" in the code?
-- Did we just discover a fundamentally better approach?
-
-**GREEN FLAGS (Keep Going):**
-- Core architecture is still sound
-- We're just adding features
-- Messy code is isolated to one component
-
-If RED > GREEN, propose a reset to the user.
-
----
-
-## 📦 Additional File Structure (3D)
-```
-components/
-└── scenes/          # 3D components
-
-public/
-└── assets/
-    └── models/      # 3D models (.glb)
-```
-
----
-
-## ⚡ 3D Performance Rules
-- Max 50k triangles per scene
-- Textures: 1024×1024 max (512 for mobile)
-- Always provide static fallback image
+Recommend the smallest patch to restore single-source-of-truth behavior.

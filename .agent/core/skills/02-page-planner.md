@@ -3,6 +3,15 @@ name: page-planner
 description: Strategic planning skill - creates sitemap and section flow from client brief
 ---
 
+## TL;DR
+**Skill:** 02 — Page Planner  
+**Phase:** Production  
+**Purpose:** Define page structure (section order only)  
+**Change Budget:** None (structure plan only)  
+**Stop:** After section order is locked  
+**Redirects:** → 03-layout-architect
+
+
 # Page Planner
 
 ## Objective

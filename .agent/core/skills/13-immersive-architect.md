@@ -1,12 +1,62 @@
 ---
 name: immersive-architect
-description: Comprehensive framework for building reactive, physically correct 3D scenes with organic effects and smart defaults.
+description: >
+  Comprehensive framework for building reactive, physically correct 3D scenes with organic effects
+  and smart defaults — now module-first to prevent monolithic files and token burn.
 ---
 
-# IMMERSIVE 3D ARCHITECT — V3.0
+## TL;DR
+**Skill:** 13 — Immersive Architect  
+**Phase:** Concept / Production (3D projects only)  
+**Purpose:** Build 3D scenes or immersive modules  
+**Change Budget:** LARGE (isolated to scene modules)  
+**Stop:** After scene is stable and performant  
+**Redirects:** If messy → rebuild module cleanly
+
+# IMMERSIVE 3D ARCHITECT — V3.1 (MODULE-FIRST)
 
 ## ROLE
-You build physically correct, interactive 3D scenes that feel alive. You understand natural language descriptions of effects and translate them into technical implementations with calibrated, scene-aware defaults.
+You build physically correct, interactive 3D scenes that feel alive. You translate natural language
+effects into calibrated technical implementations with scene-aware defaults — while keeping the
+codebase modular, patchable, and cheap to iterate.
+
+---
+
+# PART 0 — NON-NEGOTIABLES (TOKEN & SCOPE CONTROL)
+
+## ✅ Module-First Rule (Hard)
+Immersive work MUST be split into small files. Never ship a single giant Scene file.
+
+### Required module layout
+- `components/immersive/[SceneName]/Scene.tsx`        → Canvas + composition only
+- `components/immersive/[SceneName]/Camera.tsx`       → camera rig + calibration hooks
+- `components/immersive/[SceneName]/Lights.tsx`       → key/fill/rim, env, shadows
+- `components/immersive/[SceneName]/Models.tsx`       → GLTF loads + mesh grouping
+- `components/immersive/[SceneName]/Materials.ts`     → materials factory/helpers
+- `components/immersive/[SceneName]/Effects.tsx`      → postprocessing + atmos
+- `components/immersive/[SceneName]/Interactions.tsx` → mouse/raycast/forces
+- `components/immersive/[SceneName]/constants.ts`     → preset values + brand hooks
+- `components/immersive/[SceneName]/types.ts`         → config types (optional)
+- `components/immersive/index.ts`                     → exports
+
+**Never** create immersive files in root. Keep everything under `components/immersive/`.
+
+## ✅ Line Budget (Hard)
+- No immersive module may exceed **300 lines**.
+- Target: **80–200 lines** per module.
+If a module is getting large, split again (e.g., `Effects/Fog.tsx`, `Effects/Bloom.tsx`).
+
+## ✅ One-Module Patch Policy (Hard)
+During iteration, edits must target **one module per round** unless user explicitly requests a refactor.
+State which file you will touch before editing.
+
+Example:
+> "Patch target: `Effects.tsx` only. No other changes."
+
+## ✅ One Feature per Iteration (Hard)
+In immersive mode, do not add 3 features at once. Add exactly one:
+- add bloom OR add fog OR add reveal mask OR add wobble
+Then show + iterate.
 
 ---
 
@@ -15,44 +65,38 @@ You build physically correct, interactive 3D scenes that feel alive. You underst
 ## 🎯 Mode Selection (First Decision)
 
 ### MODE: AUTO (Default)
-*"Just make it work based on my description"*
-
-- Agent picks optimal values based on scene calibration
+"Just make it work based on my description"
+- Picks optimal values from calibration
 - Minimal Leva controls (only major adjustments)
 - Goal: 80% done, user tweaks remaining 20% if needed
-- **Use when:** Rapid prototyping, trusting the system
+- Use when: Rapid prototyping, trusting the system
 
 ### MODE: TWEAK
-*"I want full control over everything"*
-
+"I want full control over everything"
 - All parameters exposed via Leva
 - Calibrated ranges based on scene measurements
 - Organized into collapsible folders
-- **Use when:** Fine-tuning, client revisions, perfecting feel
+- Use when: Fine-tuning, client revisions, perfecting feel
 
-**To switch:** User says "switch to TWEAK mode" or "give me full controls"
+To switch: user says "switch to TWEAK" / "give me full controls"
 
 ---
 
 ## 🎨 Color State (Second Decision)
 
 ### STATE: SANDBOX
-*"I'm experimenting, let me try anything"*
-
+"I'm experimenting"
 - Any colors allowed
 - No CSS/DNA constraints
 - Full color pickers in Leva
-- **Use when:** Testing materials, exploring looks
 
 ### STATE: BRAND-LOCK
-*"Use only approved brand colors"*
-
+"Use only approved brand colors"
 - Colors pulled from `.agent/design/active-dna.md` or `globals.css`
 - Color pickers disabled, only presets
 - Enforces visual consistency
-- **Use when:** Production builds, client deliverables
 
-**To switch:** User says "lock to brand" or "sandbox mode"
+To switch: user says "lock to brand" / "sandbox mode"
 
 ---
 
@@ -62,14 +106,14 @@ You build physically correct, interactive 3D scenes that feel alive. You underst
 
 ### 🔒 MODE: PLACE (Default)
 A real, physical space with correct scale and lighting.
-- Physical scale: 1 unit = 1 meter
+- 1 unit = 1 meter
 - Colors from design system
 - Realistic materials
 
 ### ⚠️ MODE: VIBE (Opt-in)
 Abstract, artistic visuals. Only when explicitly requested.
 
-## Forbidden in PLACE Mode
+### Forbidden in PLACE Mode
 - motion_blur
 - world_curvature
 - distortion_shaders
@@ -78,336 +122,168 @@ Abstract, artistic visuals. Only when explicitly requested.
 
 ---
 
-## Scene Scaffold Workflow
+## Scene Scaffold Workflow (Module-first)
 
 ### STEP 0 — CALIBRATE SCENE (Mandatory)
-Before anything else, measure the scene:
+Calibration belongs in `Camera.tsx` (or a shared hook). All ranges derive from it.
 
 ```tsx
-const calibration = useMemo(() => {
-  const box = new Box3().setFromObject(sceneRef.current);
-  const size = box.getSize(new Vector3());
-  const maxDim = Math.max(size.x, size.y, size.z);
-  
-  return {
-    sceneSize: maxDim,
-    cameraDistance: camera.position.length(),
-    // All ranges derive from these
-  };
-}, []);
-```
+// Camera.tsx
+export function useSceneCalibration(sceneRef, camera) {
+  return useMemo(() => {
+    const box = new Box3().setFromObject(sceneRef.current);
+    const size = box.getSize(new Vector3());
+    const maxDim = Math.max(size.x, size.y, size.z);
+    return { sceneSize: maxDim, cameraDistance: camera.position.length() };
+  }, []);
+}
+STEP 1 — SCAFFOLD BOUNDARIES
 
-### STEP 1 — SCAFFOLD BOUNDARIES
-- `SCN_FLOOR`: Matches `--color-background`
-- `SCN_WALL`: Matches `--color-muted`
-- `SCN_LIGHT`: Studio setup (key, fill, rim)
+SCN_FLOOR matches --color-background
 
-### STEP 2 — DEFINE PHYSICS
-Articulate what exists in plain language:
-> "A wall (dark zinc). Objects (light) fixed to it. 1.8m tall."
+SCN_WALL matches --color-muted
 
-### STEP 3 — PROXIES & LAYOUT
-Validate scale with simple boxes before final assets.
+SCN_LIGHT studio setup (key, fill, rim)
+Implementation lives in Lights.tsx + Scene.tsx composition.
 
-### STEP 4 — ASSET INJECTION
-- GLB/GLTF only
-- Smart merge: combine meshes that are one logical object
+STEP 2 — DEFINE PHYSICS (Plain Language)
 
-### STEP 5 — ATMOSPHERE
-- Mode PLACE: Atmosphere for depth only, not blur
-- Fog color derived from background
+Describe what exists:
 
-### STEP 6 — ADD EFFECTS
-Reference Part 3 (Effect Vocabulary) for organic effects.
+"A wall (dark zinc). Objects (light) fixed to it. 1.8m tall."
 
-### STEP 7 — EXPOSE CONTROLS
-- AUTO mode: Minimal controls
-- TWEAK mode: Full Leva with calibrated ranges
+This maps to:
 
-### STEP 8 — BAKE & CATALOG
-Lock in values, document in component-library.md
+Models.tsx (objects)
 
----
+Materials.ts (surface)
 
-# PART 3 — EFFECT VOCABULARY
+Lights.tsx (lighting)
+
+STEP 3 — PROXIES & LAYOUT
+
+Validate scale with simple primitives FIRST:
+
+Proxies go in Models.tsx (temporary) behind a DEBUG_PROXIES flag.
+
+STEP 4 — ASSET INJECTION
+
+GLB/GLTF only
+
+Smart merge: combine meshes that are one logical object
+All loads & grouping in Models.tsx.
+
+STEP 5 — ATMOSPHERE
+
+PLACE: atmosphere for depth only, not blur
+
+Fog color derived from background
+Lives in Effects.tsx (or Effects/Fog.tsx).
+
+STEP 6 — ADD EFFECTS
+
+Use Part 3 vocabulary. Effects implemented inside Effects.tsx + Interactions.tsx.
+Never embed effect logic directly in Scene.tsx.
+
+STEP 7 — EXPOSE CONTROLS
+
+AUTO: minimal controls
+
+TWEAK: full Leva with calibrated ranges
+Leva wiring belongs in Scene.tsx (registry host) but each module registers its folder.
+
+STEP 8 — BAKE & CATALOG
+
+Lock values, document in component-library.md.
+Production strips Leva.
+
+PART 3 — EFFECT VOCABULARY (UNCHANGED)
 
 When user describes an effect in natural language, match to these recipes:
 
-## Transform Effects
+Transform Effects
+Natural Language	Effect ID	Implementation
+"clay pouring"	POUR	Top-down UV mask with noise edge
+"emerging from surface"	EMERGE	Depth-based alpha + Y displacement
+"melting"	MELT	Vertex droop + noise distortion
+"growing"	GROW	Scale 0→1 with eased timing
+"dissolving"	DISSOLVE	Noise threshold alpha
+Reveal Effects (Mouse-Triggered)
+Natural Language	Effect ID	Implementation
+"spotlight in darkness"	REVEAL_SPOTLIGHT	Radial mask at mouse UV
+"fog clears where mouse is"	REVEAL_FOG	Fog density = distance from mouse
+"washed off"	REVEAL_WASH	Directional dissolve following movement
+"scratched away"	REVEAL_SCRATCH	Persistent accumulating mask
+"burned through"	REVEAL_BURN	Noise-edged expanding hole
+Motion Effects (Mouse-Triggered)
+Natural Language	Effect ID	Implementation
+"tilt away from mouse"	MOTION_TILT	lookAt inverse + damping
+"follows my cursor"	MOTION_FOLLOW	Lerp toward mouse ray
+"pushed away"	MOTION_REPEL	Distance-based force
+"attracted to mouse"	MOTION_ATTRACT	Inverse distance force
+"wobbles on hover"	MOTION_WOBBLE	Sine wave on hover state
+Surface Effects
+Natural Language	Effect ID	Implementation
+"ripples where I touch"	SURFACE_RIPPLE	Radial wave from mouse UV
+"indent under mouse"	SURFACE_INDENT	Vertex toward mouse
+"clay deforms"	SURFACE_DEFORM	Noise-based vertex push
+"water disturbed"	SURFACE_WATER	Height map + wave propagation
+Atmosphere Effects
+Natural Language	Effect ID	Implementation
+"darkness follows me"	ATMOS_SHADOW	Light inverse to mouse
+"warmth around cursor"	ATMOS_GLOW	Color temp shift near mouse
+"particles scatter"	ATMOS_SCATTER	Particle velocity from mouse
+PART 4 — SCENE CALIBRATION (UNCHANGED)
 
-| Natural Language | Effect ID | Implementation |
-|:-----------------|:----------|:---------------|
-| "clay pouring" | `POUR` | Top-down UV mask with noise edge |
-| "emerging from surface" | `EMERGE` | Depth-based alpha + Y displacement |
-| "melting" | `MELT` | Vertex droop + noise distortion |
-| "growing" | `GROW` | Scale 0→1 with eased timing |
-| "dissolving" | `DISSOLVE` | Noise threshold alpha |
+All values are relative to scene size. Never use arbitrary numbers.
 
-## Reveal Effects (Mouse-Triggered)
+(Keep your formulas + presets here.)
 
-| Natural Language | Effect ID | Implementation |
-|:-----------------|:----------|:---------------|
-| "spotlight in darkness" | `REVEAL_SPOTLIGHT` | Radial mask at mouse UV |
-| "fog clears where mouse is" | `REVEAL_FOG` | Fog density = distance from mouse |
-| "washed off" | `REVEAL_WASH` | Directional dissolve following movement |
-| "scratched away" | `REVEAL_SCRATCH` | Persistent accumulating mask |
-| "burned through" | `REVEAL_BURN` | Noise-edged expanding hole |
+PART 5 — TUNING & BAKING (MODULE-AWARE)
+Leva Registry Pattern (Scene host + module registration)
 
-## Motion Effects (Mouse-Triggered)
+Scene.tsx hosts registry and export button.
 
-| Natural Language | Effect ID | Implementation |
-|:-----------------|:----------|:---------------|
-| "tilt away from mouse" | `MOTION_TILT` | lookAt inverse + damping |
-| "follows my cursor" | `MOTION_FOLLOW` | Lerp toward mouse ray |
-| "pushed away" | `MOTION_REPEL` | Distance-based force |
-| "attracted to mouse" | `MOTION_ATTRACT` | Inverse distance force |
-| "wobbles on hover" | `MOTION_WOBBLE` | Sine wave on hover state |
+Each module registers its own folder values via onRegister(id, values).
 
-## Surface Effects
+Rule: each module controls only its own folder (Lights/Effects/etc).
 
-| Natural Language | Effect ID | Implementation |
-|:-----------------|:----------|:---------------|
-| "ripples where I touch" | `SURFACE_RIPPLE` | Radial wave from mouse UV |
-| "indent under mouse" | `SURFACE_INDENT` | Vertex toward mouse |
-| "clay deforms" | `SURFACE_DEFORM` | Noise-based vertex push |
-| "water disturbed" | `SURFACE_WATER` | Height map + wave propagation |
+(Keep your existing registry + bake flow.)
 
-## Atmosphere Effects
+PART 6 — FILE HYGIENE (UPDATED)
 
-| Natural Language | Effect ID | Implementation |
-|:-----------------|:----------|:---------------|
-| "darkness follows me" | `ATMOS_SHADOW` | Light inverse to mouse |
-| "warmth around cursor" | `ATMOS_GLOW` | Color temp shift near mouse |
-| "particles scatter" | `ATMOS_SCATTER` | Particle velocity from mouse |
+Components: components/immersive/[SceneName]/... (module layout above)
 
----
+Assets: public/assets/[category]/
 
-# PART 4 — SCENE CALIBRATION
+Never: create or edit immersive code in app/ pages directly (import modules instead)
 
-All values are **relative to scene size**. Never use arbitrary numbers.
+Always: ESLint clean before "done"
 
-## Calibration Formulas
+Always: keep each file under line budget
 
-| Control | Default | Range |
-|:--------|:--------|:------|
-| `fogNear` | sceneSize × 0.5 | 0 → sceneSize × 2 |
-| `fogFar` | sceneSize × 1.5 | sceneSize × 0.5 → sceneSize × 3 |
-| `revealRadius` | sceneSize × 0.15 | sceneSize × 0.02 → sceneSize × 0.4 |
-| `displacement` | avgObjectSize × 0.1 | 0 → avgObjectSize × 0.5 |
-| `repelForce` | sceneSize × 0.01 | 0 → sceneSize × 0.1 |
-
-## Presets (AUTO Mode Picks These)
-
-### Fog: SUBTLE
-```
-near: sceneSize × 0.8
-far: sceneSize × 2.0
-```
-
-### Fog: DRAMATIC
-```
-near: sceneSize × 0.2
-far: sceneSize × 0.8
-```
-
-### Reveal: TIGHT (precise spotlight)
-```
-radius: sceneSize × 0.05
-edge: 0.8 (soft)
-```
-
-### Reveal: WIDE (ambient reveal)
-```
-radius: sceneSize × 0.3
-edge: 0.2 (hard)
-```
-
----
-
-# PART 5 — TUNING & BAKING
-
-## Leva Registry Pattern
-
-Parent component creates config ref, children register their state:
-
-```tsx
-// Parent
-const configRef = useRef<Record<string, any>>({});
-const onRegister = (id: string, data: any) => {
-  configRef.current[id] = data;
-};
-
-// Global export button
-useControls("ACTIONS", {
-  "COPY CONFIG": button(() => {
-    navigator.clipboard.writeText(JSON.stringify(configRef.current, null, 2));
-    alert("Config copied!");
-  })
-});
-```
-
-## Child Registration
-
-```tsx
-const values = useControls(id, {
-  speed: { value: config?.speed ?? 1, min: 0, max: 10 }
-});
-
-useEffect(() => {
-  onRegister?.(id, values);
-}, [values]);
-```
-
-## Bake Flow
-
-1. Tweak until perfect
-2. Click "COPY CONFIG"
-3. Paste JSON into component defaults
-4. Add screenshot to `component-library.md`
-
-## Production Strip
-
-```tsx
-const isDev = process.env.NODE_ENV === 'development';
-return (
-  <>
-    {isDev && <Leva />}
-    <Canvas>...</Canvas>
-  </>
-);
-```
-
----
-
-# PART 6 — FILE HYGIENE
-
-- **Components:** `components/scenes/[SceneName]/`
-- **Assets:** `public/assets/[category]/`
-- **Never:** Create files in root
-- **Always:** ESLint clean before "done"
-
----
-
-# PART 7 — COMMUNICATION FORMAT
+PART 7 — COMMUNICATION FORMAT (UPDATED)
 
 When building, always state:
 
-1. **Mode:** AUTO / TWEAK
-2. **Color State:** SANDBOX / BRAND-LOCK
-3. **Scene Mode:** PLACE / VIBE
-4. **Current Step:** (0-8)
-5. **Effects Applied:** (list Effect IDs)
-6. **Calibration:** sceneSize = X units
+Mode: AUTO / TWEAK
 
----
+Color State: SANDBOX / BRAND-LOCK
 
-# PERFORMANCE GUARDRAILS
+Scene Mode: PLACE / VIBE
 
-- **WebGL 2.0 Required** — Always use WebGL 2.0 (or latest available). Configure R3F Canvas with `gl={{ powerPreference: 'high-performance' }}`. Three.js defaults to WebGL 2 when available; never force WebGL 1.
-- Max 50k triangles per scene
-- Textures: 1024×1024 max (512 for mobile)
-- Use `<PerformanceMonitor>` from drei
-- Always provide static fallback:
+Current Step: (0–8)
 
-```tsx
-<Suspense fallback={<Image src="/fallback.jpg" />}>
-  <Scene3D />
-</Suspense>
-```
+Patch Target: (single module path)
 
----
+Effects Applied: (Effect IDs)
 
-# PART 8 — CRYSTALLIZE CHECKPOINT
+Calibration: sceneSize = X units
 
-## Purpose
-During exploration, code gets messy. When you discover a breakthrough or finalize your approach, you need to decide: **patch forward or reset clean?**
+PERFORMANCE GUARDRAILS (UNCHANGED)
 
-## Self-Assessment (Run This Mentally)
+(Keep your WebGL2, tri budget, texture limits, PerformanceMonitor, static fallback.)
 
-When the project feels stuck, conflicting, or has had a major insight, ask yourself:
+PART 8 — CRYSTALLIZE CHECKPOINT (UNCHANGED)
 
-### 🔴 RED FLAGS (Signs You Should Reset)
-
-| Question | If YES → Consider Reset |
-|:---------|:------------------------|
-| Am I constantly working around earlier mistakes? | ✓ |
-| Are there 3+ "temporary fixes" still in the code? | ✓ |
-| Did we just discover a fundamentally better approach? | ✓ |
-| Is the file structure messy from trial-and-error? | ✓ |
-| Would explaining this codebase to someone else be embarrassing? | ✓ |
-| Are there conflicting patterns (old approach + new approach mixed)? | ✓ |
-
-### 🟢 GREEN FLAGS (Safe to Continue Patching)
-
-| Question | If YES → Keep Building |
-|:---------|:-----------------------|
-| Is the core architecture still sound? | ✓ |
-| Are we just adding features, not rewriting fundamentals? | ✓ |
-| Would a reset take longer than fixing the issues? | ✓ |
-| Is the messy code isolated to one component? | ✓ |
-
-## The Decision Framework
-
-```
-COUNT RED FLAGS vs GREEN FLAGS
-
-If RED > GREEN:
-  → CRYSTALLIZE: Reset to clean state with new knowledge
-  → Save current work as reference
-  → Start fresh scaffold with refined instructions
-
-If GREEN > RED:
-  → CONTINUE: Patch forward
-  → But isolate the messy parts
-  → Refactor incrementally
-```
-
-## How to Crystallize
-
-When you decide to reset:
-
-1. **SAVE THE LEARNING**
-   ```bash
-   git stash push -m "exploration-phase-[date]"
-   # or
-   cp -r src src-exploration-backup
-   ```
-
-2. **DOCUMENT WHAT WORKED**
-   - Which approaches succeeded?
-   - What values/settings were good?
-   - What patterns emerged?
-
-3. **START CLEAN**
-   ```bash
-   git checkout main
-   # or create new branch
-   git checkout -b clean-rebuild
-   ```
-
-4. **APPLY NEW KNOWLEDGE**
-   - Use the refined skill/instructions
-   - Build on solid foundation
-   - Reference the backup only for specific values
-
-## Agent Self-Prompt
-
-When you sense complexity building, pause and ask:
-
-> "I notice this is getting messy. Let me evaluate:
-> - Can I give 3+ concrete reasons why a reset would help us move faster?
-> - Or can I give 3+ concrete reasons why the current foundation is still solid?"
-
-If you can justify a reset with specific reasons, **propose it to the user:**
-
-> "I recommend we crystallize here. The current code has [X, Y, Z issues]. 
-> If we reset with our new understanding, we could [specific benefit].
-> Should I save this as a reference and start fresh?"
-
-## When to Trigger This Checkpoint
-
-- After major breakthroughs ("we finally understand how the shader works!")
-- When context feels fragmented ("I've lost track of which approach we're using")
-- After 3+ failed attempts at the same fix
-- When the user brings refined instructions from external research
-- When switching from exploration mode to production build
+(Keep your reset-vs-patch framework.)

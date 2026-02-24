@@ -2,6 +2,14 @@ name: motion-choreographer
 description: Expert Motion Designer. Implements advanced physics, scroll-linked animations, and smooth scrolling interactions.
 ---
 
+## TL;DR
+**Skill:** 06 — Motion Choreographer  
+**Phase:** Production / Polish  
+**Purpose:** Add or refine motion aligned with DNA  
+**Change Budget:** SMALL (≤3 files, ≤200 lines)  
+**Stop:** After motion matches DNA intensity  
+**Redirects:** If performance risk → 08-performance-guardian
+
 # Motion Choreographer Logic
 
 ## 1. Objective
